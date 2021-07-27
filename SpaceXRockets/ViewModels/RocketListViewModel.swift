@@ -9,16 +9,38 @@ import Foundation
 
 final class RocketListViewModel: ObservableObject {
     
+    var rocketInfoIcons: [String] = [
+        "number",
+        "doc.plaintext.fill",
+        "safari",
+        "mappin.and.ellipse",
+        "scalemass",
+    ]
+    
     @Published var name = ""
     @Published var country = ""
     @Published var firstFlight = ""
     @Published var rockets = [Rocket]()
+    @Published var rocket: Rocket?
+    @Published var rockedAndImages = [[String]:[String]]()
+    @Published var roc = [String]()
     
     func loadRockets() {
         API.fetch(endPoint: "/rockets") { (rockets: Result<[Rocket],Error>) in
             switch rockets {
                 case .success(let rockets):
                     self.rockets = rockets
+                case .failure(let error):
+                    print(error)
+            }
+        }
+    }
+    
+    func loadOneRocket(_ id: String) {
+        API.fetch(endPoint: "/rockets/\(id)") { (rocket: Result<Rocket,Error>) in
+            switch rocket {
+                case .success(let rocket):
+                    self.rocket = rocket
                 case .failure(let error):
                     print(error)
             }

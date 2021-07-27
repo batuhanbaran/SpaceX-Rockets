@@ -19,8 +19,7 @@ struct RocketListCell: View {
                 .shadow(color: .black, radius: 2, x: 0, y: 0)
                 .opacity(0.75)
             VStack {
-                Image("rocket")
-                    .resizable()
+                Image("").imageFromKingfisher(imageUrl: rocket.flickrImages[0])
                     .frame(width: UIScreen.main.bounds.width - 60, height: 150, alignment: .center)
                     .cornerRadius(15)
                     .padding(.top)

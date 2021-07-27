@@ -8,21 +8,30 @@
 import SwiftUI
 
 struct Home: View {
-    @ObservedObject var viewModel = RocketListViewModel()
-        
+    @StateObject var viewModel = RocketListViewModel()
+    @State var isActive = false
+    @State var id = ""
     var body: some View {
         NavigationView {
             ScrollView {
                 LazyVStack(spacing: 5) {
-                    ForEach(viewModel.rockets) { rocket in
-                        RocketListCell(rocket: rocket)
+                    ForEach(viewModel.rockets.indices, id: \.self) { index in
+                        RocketListCell(rocket: viewModel.rockets[index])
+                            .onTapGesture {
+                                self.isActive.toggle()
+                                self.id = viewModel.rockets[index].id
+                            }
                     }
                 }
             }
+            .background(
+                NavigationLink("", destination: RocketDetail(viewModel: viewModel, id: $id), isActive: $isActive)
+            )
             .navigationBarTitle("SpaceX Rockets", displayMode: .large)
             .background(Image("backgroundImage").ignoresSafeArea())
-            
-        }.onAppear(perform: viewModel.loadRockets)
+
+        }
+        .onAppear(perform: viewModel.loadRockets)
     }
 }
 

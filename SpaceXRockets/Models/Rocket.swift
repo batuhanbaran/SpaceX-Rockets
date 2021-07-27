@@ -7,9 +7,10 @@
 
 import Foundation
 
-struct Rocket: Codable, Identifiable {
+struct Rocket: Codable, Identifiable, Hashable {
     let flickrImages: [String]
     let name: String
+    let mass: Mass
     let type: String
     let active: Bool
     let stages: Int
@@ -28,7 +29,10 @@ struct Rocket: Codable, Identifiable {
         case costPerLaunch = "cost_per_launch"
         case successRatePct = "success_rate_pct"
         case firstFlight = "first_flight"
-        case name,type,active,stages,boosters,country,company,wikipedia,description,id
+        case name,type,active,stages,boosters,country,company,wikipedia,description,id,mass
     }
 }
 
+struct Mass: Codable, Hashable {
+    let kg: Int
+}
