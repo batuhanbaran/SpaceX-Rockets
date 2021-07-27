@@ -9,6 +9,7 @@ import SwiftUI
 import Kingfisher
 
 struct RocketDetail: View {
+    
     @ObservedObject var viewModel = RocketListViewModel()
     @Binding var id: String
     @State var isPresented = false

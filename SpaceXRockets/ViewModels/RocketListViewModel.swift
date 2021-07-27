@@ -25,11 +25,12 @@ final class RocketListViewModel: ObservableObject {
     @Published var rockedAndImages = [[String]:[String]]()
     @Published var roc = [String]()
     
-    func loadRockets() {
+    func loadRockets(completion: @escaping (Bool) ->()) {
         API.fetch(endPoint: "/rockets") { (rockets: Result<[Rocket],Error>) in
             switch rockets {
                 case .success(let rockets):
                     self.rockets = rockets
+                    completion(true)
                 case .failure(let error):
                     print(error)
             }
